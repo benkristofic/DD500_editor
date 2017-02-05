@@ -1,0 +1,218 @@
+html,body {
+	font-size:13px;
+}
+
+select {
+	width:90px;
+}
+
+div.left {
+	position:absolute;
+	top:5%;
+	left:1%;
+	width:50%;
+	border:1px solid;
+}
+ 
+span {
+	position:relative;
+	z-index:4;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+div.top {
+	position:relative;
+	top:1%;
+	left:1%;
+	width:48%;
+}
+div.topleft {
+	position:absolute;
+	top:1%;
+	left:52%;
+	width:48%;	
+}
+
+
+div.right {
+	position:absolute;
+	top:5%;
+	left:52%;
+	width:47%;
+	border:1px solid;
+	font-size:1em;
+}
+
+table {
+	font-size:1em;
+}
+
+div.delay {
+	position:relative;
+	top:2%;
+	left:2%;
+	width:100%;
+}
+
+div.main {
+	position:absolute;
+	top:0%;
+	left:0%;
+	width:100%;
+	height:100%;
+	background-color:#FFFFFF;
+	opacity:1;
+	z-index:1;
+	overflow:auto;	
+}
+
+div.wait {
+	position:absolute;
+	top:0%;
+	left:0%;
+	width:100%;
+	height:100%;
+	background-color:#303030;
+	opacity:0.8;
+	z-index:2;
+	display:none;
+}
+
+div.info {
+	position:absolute;
+	top:0%;
+	left:0%;
+	width:100%;
+	height:100%;
+	background-color:#303030;
+	opacity:0.8;
+	z-index:3;
+	display:none;
+}
+
+div.waittext {
+	position:relative;
+	top:45%;
+	left:0%;
+	text-align:center;
+}
+
+div.infotext {
+	position:relative;
+	top:25%;
+	left:0%;
+	text-align:center;
+}
+
+p {
+	font-size:25px;
+	color:#FFFFFF;
+}
+
+#terra {
+	display:none;
+}
+
+#slow{
+	display:none;	
+} 
+
+#filter {
+	display:none;
+} 
+
+#shimmer {
+	display:none;	
+} 
+
+#sfx {
+	display:none;
+} 
+
+#pattern {
+	display:none;
+} 
+
+#dual {
+	display:none;	
+} 
+
+#vintage {
+	display:none;	
+} 
+
+#tape {
+	display:none;	
+} 
+
+#analog {
+	display:none;	
+}
+
+#assign1 {
+	display:block;
+}
+
+#assign2 {
+	display:none;
+}
+
+#assign3 {
+	display:none;
+}
+
+#assign4 {
+	display:none;
+}
+
+#assign5 {
+	display:none;
+}
+
+#assign6 {
+	display:none;
+}
+
+#assign7 {
+	display:none;
+}
+
+#assign8 {
+	display:none;
+}
+
+td.name {
+	text-align:right;
+}
+#loadDiv {
+	position:absolute;
+	top:0px;
+	left:0%;
+	width:100%;
+	height:100%;
+	background-color:#707070;
+	z-index:3;
+	display:none;
+	opacity:0.9;
+	
+}
+.loadPatch {
+	text-align:center;
+	cursor:pointer;
+	text-decoration:underline;
+	font-size:2em;
+	color:#FFFFFF;
+}
+.warning {
+	text-align:center;
+	font-size:2em;
+	color:#FF0000;
+}
+.cancelWarning {
+	text-align:center;
+	font-size:1.5em;
+	color:#FFFFFF;
+	text-decoration:underline;
+	cursor:pointer;
+}

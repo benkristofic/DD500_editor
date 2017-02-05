@@ -1,0 +1,526 @@
+<html>
+<head>
+	<title>DD500</title>
+	<script src="jquery-1.9.1.js"></script>
+	<script src="parameterList.js"></script>
+	<script src="fillParam.js"></script>
+	<script src="mididd500.js"></script>
+	<link rel="stylesheet" type="text/css" href="dd500stijl.css" /> 
+</head>
+<body>
+ <div class="wait" id="waitDiv">
+	<div class="waittext">
+		<p>Loading data from DD-500<br>
+			This will take 5 seconds..</p>
+	</div>
+ </div>
+ <div class="info" id="infoDiv">
+	<div class="infotext">
+		<p>Created by Roald van Dillewijn<br><br>
+			Feel free to ask questions, report problems or sing a song for me<br>
+			www.roaldvandillewijn.nl<br>
+			info@roaldvandillewijn.nl</br><br>
+			This page will only work in Chrome or Opera.<br>If you can't see the DD-500 in the list of available sources, you'll need to restart the browser.<br>
+			You'll need to give this site permission to use midi functionality<br>
+			<span id="close">Close this message</span>
+			</p>
+		</div>
+	</div>
+	<div id="loadDiv"></div>
+
+ <div class ="main">
+	<div class="top">
+ 		Midi source:<select id="outputportselector"></select>
+	</div>
+	<div class="topleft" id="textthing">
+		<span id="info"><b>More information</b></span> | 
+		<span id="savePatch"><b>Save</b></span> | 
+		<span id="loadPatch"><b>Select Patch</b></span>
+		<input id="fileInput" type="file" name="fileInput" style="display: none;" accept="application/json" />
+	</div>
+ 
+	<br><br>
+	<div class="left">
+	<table>
+	<tr><td>
+	Bank Selector:</td><td><select id="Bankselector"  style="width:100px"> </select><br></td><td colspan = "3"><input type="text" id="patchName"></input>
+	</td></tr><tr><td class="name">
+	Mode:</td><td><select id="mode"></select><br>
+	</td></tr><tr><td class="name">
+	Time:</td><td><input type="number" id="delayTime" min="0" max="10000"></input><br>
+	</td><td class="name">
+	BPM:</td><td><input type="number" id="bpm" min="1.5" max="240000"></input><br>
+	</td><td class="name">
+	Note:</td><td><select id="note"></select><br>
+	</td></tr><tr><td class="name">
+	Feedback:</td><td><input type="number" id="feedback" min="0" max="100"></input><br>
+	</td><td class="name">
+	Tone:</td><td><input type="number" id="tone" min="-50" max="50"></input><br>
+	</td></tr></table><br>
+	<table>
+	<tr><td class="name">
+	Effect Level:</td><td><input type="number" id="effectLevel" min="0" max="120"></input><br>
+	</td><td class="name">
+	Direct Level:</td><td><input type="number" id="directLevel" min="0" max="100"></input><br>
+	</td></tr><tr><td class="name">	
+		
+	<u>Modulation</u> Depth:</td><td><input type="number" id="modulationDepth" min="0" max="100"></input><br>				
+	</td><td class="name">
+  Rate:</td><td><select id="modulationRate"></select><br>
+	</td></tr><tr><td class="name">
+	Carryover:</td><td><select id="carryover"></select>
+	</td></tr><tr><td class="name">
+	<u>Duck</u> Sens:</td><td><input type="number" id="duckSens" min="0" max="100"></input><br>
+	</td><td class="name">
+	Pre Depth:</td><td><input type="number" id="duckPreDepth" min="0" max="100"></input><br>
+	</td><td class="name">
+	Post Depth:</td><td><input type="number" id="duckPostDepth" min="0" max="100"></input><br>	
+	</td></tr><tr><td class="name">
+	Effect Pan:</td><td><input type="number" id="effectPan" min="-50" max="50"></input><br>
+	</td><td class="name">
+	Direct Pan:</td><td><input type="number" id="directPan" min="-50" max="50"></input><br>
+	</td></tr></table><br>
+	<table>
+	<tr><td>
+  <u>Equalizer:</u></td><td class="name">
+	Switch:</td><td><select id="eqSw"></select><br>	
+	</td><td class="name">
+	Level:</td><td><input type="number" id="eqTotalLevel" min="-20" max="20"></input><br>
+	</td></tr><tr></tr><tr></tr><tr><td>
+	<u>Low</u></td><td class="name">
+	Gain:</td><td><input type="number" id="eqLowGain" min="-20" max="20"></input><br>		
+	</td><td class="name">
+	Freq:</td><td><select id="eqLowCutFilterFreq"></select><br>
+	</td></tr><tr><td>
+	<u>Low Mid</u></td><td class="name">Gain:</td><td><input type="number" id="eqLowMidGain" min="-20" max="20"></input><br>
+	</td><td class="name">
+	Freq:</td><td><select id="eqLowMidFreq"></select><br>		
+	</td><td class="name">
+	Q:</td><td><select id="eqLowMidQ"></select><br>		
+	</td></tr><tr><td>
+	<u>High Mid</u><td class="name">
+  Gain:</td><td><input type="number" id="eqHighMidGain" min="-20" max="20"></input><br>
+	</td><td class="name">
+	Freq:</td><td><select id="eqHighMidFreq"></select><br>	
+	</td><td class="name">
+	Q:</td><td><select id="eqHighMidQ"></select><br>		
+	</td></tr><tr><td>
+	<u>High</u></td><td class="name">
+	Gain:</td><td><input type="number" id="highEqGain" min="-20" max="20"></input><br>
+	</td><td class="name">
+	Freq:</td><td><select id="highCutFilterFreq"></select><br>		
+	</td></tr><tr><td>
+	<u>Low Damp</u></td><td class="name">	
+	Gain:</td><td><input type="number" id="lowDamp" min="-20" max="20"></input><br>
+	</td><td class="name">
+	Freq:</td><td><select id="lowDampFreq"></select><br>		
+	</td></tr><tr><td>
+	<u>High Damp </u></td><td class="name">	
+	Gain:</td><td><input type="number" id="hiDampGain" min="-20" max="20"></input><br> 
+	</td><td class="name">
+	Freq:</td><td><select id="hiDampFreq"></select><br>		
+	</td></tr></table><br>
+	<table><tr><td class="name">
+	Tap/Ctl Function:</td><td><select id="tapCtlFunction"></select><br>		
+	</td></tr><tr><td class="name">
+	Ctl Value:</td><td><select id="ctlValue"></select><br>		
+	</td></tr><tr><td class="name">
+	Ctl 1 Function:</td><td><select id="ctlOneFunction"></select><br>		
+	</td><td class="name">
+	Mode:</td><td><select id="ctlOneMode"></select><br>		
+	</td></tr><tr><td class="name">
+	Ctl 2 Function:</td><td><select id="ctlTwoFunction"></select><br>		
+	</td><td class="name">
+	Mode:</td><td><select id="ctlTwoMode"></select><br>		
+	</td></tr><tr><td class="name">
+	Exp Pedal Function:</td><td><select id="expPedalFunction"></select><br>		
+	</td><td class="name">
+	Target Max:</td><td><input type="number" id="expTargetMax" min="-100" max="10000"></input><br>		
+	</td><td class="name">
+	Min:</td><td><input type="number" id="expTargetMin" min="-100" max="10000"></input><br>		
+	</td></tr></table>
+	</div>
+	<div class = "right"><Br>
+	Assign: <select id="assSwitch"></select><br>
+ 
+	<div id="assign1">
+ 	<table><tr><td>
+	Assign 1</td></tr><tr><td class="name">
+	Switch:</td><td><select id="assSw1"></select><br>
+	</td></tr><tr><td class="name">
+	Source:</td><td><select id="assSource1"></select><br>
+	</td><td class="name">
+	Mode:</td><td><select id="assSourceMode1"></select><br>
+	</td></tr><tr><td class="name">
+	Target:</td><td><select id="assTarget1"></select><br>
+	</td><td class="name">
+	Min:</td><td><input type="number" id="assTargetMin1" min="-100" max="2400000"></input><br>
+	</td><td class="name">
+	Max:</td><td><input type="number" id="assTargetMax1" min="-100" max="2400000"></input><br>
+	</td></tr><tr><td class="name">
+	Active Range Low:</td><td><input type="number" id="assActiveRangeLo1" min="0" max="126"></input><br>
+	</td><td class="name">
+	High:</td><td><input type="number" id="assActiveRangeHi1" min="1" max="127"></input><br>
+  </td></tr><tr><td class="name">
+	Wave Rate:</td><td><select id="assWaveRate1"></select><br>
+	</td><td class="name">
+	Form:</td><td><select id="assWaveForm1"></select><br>
+	</td></tr><tr><td class="name">
+	Internal Pedal Trigger:</td><td><select id="assIntPedalTrig1"></select><br>
+	</td><td class="name">
+	Time:</td><td><input type="number" id="assIntPedalTime1" min="0" max="100"></input><br>
+	</td><td class="name">
+	Curve:</td><td><select id="assIntPedalCurve1"></select><br>
+	</td></tr>
+	</table>
+	</div>
+	
+	<div id="assign2">
+ 	<table><tr><td>
+	Assign 2</td></tr><tr><td class="name">
+	Switch:</td><td><select id="assSw2"></select><br>
+	</td></tr><tr><td class="name">
+	Source:</td><td><select id="assSource2"></select><br>
+	</td><td class="name">
+	Mode:</td><td><select id="assSourceMode2"></select><br>
+	</td></tr><tr><td class="name">
+	Target:</td><td><select id="assTarget2"></select><br>
+	</td><td class="name">
+	Min:</td><td><input type="number" id="assTargetMin2" min="-100" max="2400000"></input><br>
+	</td><td class="name">
+	Max:</td><td><input type="number" id="assTargetMax2" min="-100" max="2400000"></input><br>
+	</td></tr><tr><td class="name">
+	Active Range Low:</td><td><input type="number" id="assActiveRangeLo2" min="0" max="126"></input><br>
+	</td><td class="name">
+	High:</td><td><input type="number" id="assActiveRangeHi2" min="1" max="127"></input><br>
+  </td></tr><tr><td class="name">
+	Wave Rate:</td><td><select id="assWaveRate2"></select><br>
+	</td><td class="name">
+	Form:</td><td><select id="assWaveForm2"></select><br>
+	</td></tr><tr><td class="name">
+	Internal Pedal Trigger:</td><td><select id="assIntPedalTrig2"></select><br>
+	</td><td class="name">
+	Time:</td><td><input type="number" id="assIntPedalTime2" min="0" max="100"></input><br>
+	</td><td class="name">
+	Curve:</td><td><select id="assIntPedalCurve2"></select><br>
+	</td></tr>
+	</table>
+	</div>
+	
+	<div id="assign3">
+ 	<table><tr><td>
+	Assign 3</td></tr><tr><td class="name">
+	Switch:</td><td><select id="assSw3"></select><br>
+	</td></tr><tr><td class="name">
+	Source:</td><td><select id="assSource3"></select><br>
+	</td><td class="name">
+	Mode:</td><td><select id="assSourceMode3"></select><br>
+	</td></tr><tr><td class="name">
+	Target:</td><td><select id="assTarget3"></select><br>
+	</td><td class="name">
+	Min:</td><td><input type="number" id="assTargetMin3" min="-100" max="2400000"></input><br>
+	</td><td class="name">
+	Max:</td><td><input type="number" id="assTargetMax3" min="-100" max="2400000"></input><br>
+	</td></tr><tr><td class="name">
+	Active Range Low:</td><td><input type="number" id="assActiveRangeLo3" min="0" max="126"></input><br>
+	</td><td class="name">
+	High:</td><td><input type="number" id="assActiveRangeHi3" min="1" max="127"></input><br>
+  </td></tr><tr><td class="name">
+	Wave Rate:</td><td><select id="assWaveRate3"></select><br>
+	</td><td class="name">
+	Form:</td><td><select id="assWaveForm3"></select><br>
+	</td></tr><tr><td class="name">
+	Internal Pedal Trigger:</td><td><select id="assIntPedalTrig3"></select><br>
+	</td><td class="name">
+	Time:</td><td><input type="number" id="assIntPedalTime3" min="0" max="100"></input><br>
+	</td><td class="name">
+	Curve:</td><td><select id="assIntPedalCurve3"></select><br>
+	</td></tr>
+	</table>
+	</div>
+	
+	<div id="assign4">
+ 	<table><tr><td>
+	Assign 4</td></tr><tr><td class="name">
+	Switch:</td><td><select id="assSw4"></select><br>
+	</td></tr><tr><td class="name">
+	Source:</td><td><select id="assSource4"></select><br>
+	</td><td class="name">
+	Mode:</td><td><select id="assSourceMode4"></select><br>
+	</td></tr><tr><td class="name">
+	Target:</td><td><select id="assTarget4"></select><br>
+	</td><td class="name">
+	Min:</td><td><input type="number" id="assTargetMin4" min="-100" max="2400000"></input><br>
+	</td><td class="name">
+	Max:</td><td><input type="number" id="assTargetMax4" min="-100" max="2400000"></input><br>
+	</td></tr><tr><td class="name">
+	Active Range Low:</td><td><input type="number" id="assActiveRangeLo4" min="0" max="126"></input><br>
+	</td><td class="name">
+	High:</td><td><input type="number" id="assActiveRangeHi4" min="1" max="127"></input><br>
+  </td></tr><tr><td class="name">
+	Wave Rate:</td><td><select id="assWaveRate4"></select><br>
+	</td><td class="name">
+	Form:</td><td><select id="assWaveForm4"></select><br>
+	</td></tr><tr><td class="name">
+	Internal Pedal Trigger:</td><td><select id="assIntPedalTrig4"></select><br>
+	</td><td class="name">
+	Time:</td><td><input type="number" id="assIntPedalTime4" min="0" max="100"></input><br>
+	</td><td class="name">
+	Curve:</td><td><select id="assIntPedalCurve4"></select><br>
+	</td></tr>
+	</table>
+	</div>
+	
+	<div id="assign5">
+ 	<table><tr><td>
+	Assign 5</td></tr><tr><td class="name">
+	Switch:</td><td><select id="assSw5"></select><br>
+	</td></tr><tr><td class="name">
+	Source:</td><td><select id="assSource5"></select><br>
+	</td><td class="name">
+	Mode:</td><td><select id="assSourceMode5"></select><br>
+	</td></tr><tr><td class="name">
+	Target:</td><td><select id="assTarget5"></select><br>
+	</td><td class="name">
+	Min:</td><td><input type="number" id="assTargetMin5" min="-100" max="2400000"></input><br>
+	</td><td class="name">
+	Max:</td><td><input type="number" id="assTargetMax5" min="-100" max="2400000"></input><br>
+	</td></tr><tr><td class="name">
+	Active Range Low:</td><td><input type="number" id="assActiveRangeLo5" min="0" max="126"></input><br>
+	</td><td class="name">
+	High:</td><td><input type="number" id="assActiveRangeHi5" min="1" max="127"></input><br>
+  </td></tr><tr><td class="name">
+	Wave Rate:</td><td><select id="assWaveRate5"></select><br>
+	</td><td class="name">
+	Form:</td><td><select id="assWaveForm5"></select><br>
+	</td></tr><tr><td class="name">
+	Internal Pedal Trigger:</td><td><select id="assIntPedalTrig5"></select><br>
+	</td><td class="name">
+	Time:</td><td><input type="number" id="assIntPedalTime5" min="0" max="100"></input><br>
+	</td><td class="name">
+	Curve:</td><td><select id="assIntPedalCurve5"></select><br>
+	</td></tr>
+	</table>
+	</div>
+	
+	<div id="assign6">
+ 	<table><tr><td>
+	Assign 6</td></tr><tr><td class="name">
+	Switch:</td><td><select id="assSw6"></select><br>
+	</td></tr><tr><td class="name">
+	Source:</td><td><select id="assSource6"></select><br>
+	</td><td class="name">
+	Mode:</td><td><select id="assSourceMode6"></select><br>
+	</td></tr><tr><td class="name">
+	Target:</td><td><select id="assTarget6"></select><br>
+	</td><td class="name">
+	Min:</td><td><input type="number" id="assTargetMin6" min="-100" max="2400000"></input><br>
+	</td><td class="name">
+	Max:</td><td><input type="number" id="assTargetMax6" min="-100" max="2400000"></input><br>
+	</td></tr><tr><td class="name">
+	Active Range Low:</td><td><input type="number" id="assActiveRangeLo6" min="0" max="126"></input><br>
+	</td><td class="name">
+	High:</td><td><input type="number" id="assActiveRangeHi6" min="1" max="127"></input><br>
+  </td></tr><tr><td class="name">
+	Wave Rate:</td><td><select id="assWaveRate6"></select><br>
+	</td><td class="name">
+	Form:</td><td><select id="assWaveForm6"></select><br>
+	</td></tr><tr><td class="name">
+	Internal Pedal Trigger:</td><td><select id="assIntPedalTrig6"></select><br>
+	</td><td class="name">
+	Time:</td><td><input type="number" id="assIntPedalTime6" min="0" max="100"></input><br>
+	</td><td class="name">
+	Curve:</td><td><select id="assIntPedalCurve6"></select><br>
+	</td></tr>
+	</table>
+	</div>
+	
+	<div id="assign7">
+ 	<table><tr><td>
+	Assign 7</td></tr><tr><td class="name">
+	Switch:</td><td><select id="assSw7"></select><br>
+	</td></tr><tr><td class="name">
+	Source:</td><td><select id="assSource7"></select><br>
+	</td><td class="name">
+	Mode:</td><td><select id="assSourceMode7"></select><br>
+	</td></tr><tr><td class="name">
+	Target:</td><td><select id="assTarget7"></select><br>
+	</td><td class="name">
+	Min:</td><td><input type="number" id="assTargetMin7" min="-100" max="2400000"></input><br>
+	</td><td class="name">
+	Max:</td><td><input type="number" id="assTargetMax7" min="-100" max="2400000"></input><br>
+	</td></tr><tr><td class="name">
+	Active Range Low:</td><td><input type="number" id="assActiveRangeLo7" min="0" max="126"></input><br>
+	</td><td class="name">
+	High:</td><td><input type="number" id="assActiveRangeHi7" min="1" max="127"></input><br>
+  </td></tr><tr><td class="name">
+	Wave Rate:</td><td><select id="assWaveRate7"></select><br>
+	</td><td class="name">
+	Form:</td><td><select id="assWaveForm7"></select><br>
+	</td></tr><tr><td class="name">
+	Internal Pedal Trigger:</td><td><select id="assIntPedalTrig7"></select><br>
+	</td><td class="name">
+	Time:</td><td><input type="number" id="assIntPedalTime7" min="0" max="100"></input><br>
+	</td><td class="name">
+	Curve:</td><td><select id="assIntPedalCurve7"></select><br>
+	</td></tr>
+	</table>
+	</div>
+	
+	<div id="assign8">
+ 	<table><tr><td>
+	Assign 8</td></tr><tr><td class="name">
+	Switch:</td><td><select id="assSw8"></select><br>
+	</td></tr><tr><td class="name">
+	Source:</td><td><select id="assSource8"></select><br>
+	</td><td class="name">
+	Mode:</td><td><select id="assSourceMode8"></select><br>
+	</td></tr><tr><td class="name">
+	Target:</td><td><select id="assTarget8"></select><br>
+	</td><td class="name">
+	Min:</td><td><input type="number" id="assTargetMin8" min="-100" max="2400000"></input><br>
+	</td><td class="name">
+	Max:</td><td><input type="number" id="assTargetMax8" min="-100" max="2400000"></input><br>
+	</td></tr><tr><td class="name">
+	Active Range Low:</td><td><input type="number" id="assActiveRangeLo8" min="0" max="126"></input><br>
+	</td><td class="name">
+	High:</td><td><input type="number" id="assActiveRangeHi8" min="1" max="127"></input><br>
+  </td></tr><tr><td class="name">
+	Wave Rate:</td><td><select id="assWaveRate8"></select><br>
+	</td><td class="name">
+	Form:</td><td><select id="assWaveForm8"></select><br>
+	</td></tr><tr><td class="name">
+	Internal Pedal Trigger:</td><td><select id="assIntPedalTrig8"></select><br>
+	</td><td class="name">
+	Time:</td><td><input type="number" id="assIntPedalTime8" min="0" max="100"></input><br>
+	</td><td class="name">
+	Curve:</td><td><select id="assIntPedalCurve8"></select><br>
+	</td></tr>
+	</table> 
+	</div>
+	<div class="delay" id="terra">
+	<hr width="80%">
+	<table><tr><td>
+	Terra Echo<br></td></tr>
+	<tr><td>Resonance:</td><td><input type="number" id="teResonance" min="0" max="100"></input><br></td></tr>
+	</table>	
+	</div>
+	<div class="delay" id="slow">
+	<hr width="80%">
+	<table><tr><td>
+	Slow Attack<br></td></tr>
+	<tr><td>Sens:</td><td><input type="number" id="saSens" min="0" max="100"></input><br></td></tr>
+	<tr><td>Rise Time:</td><td><input type="number" id="saRiseTime" min="0" max="100"></input><br></td></tr>
+	</table> 		
+	</div>
+	<div class="delay" id="filter">
+	<hr width="80%">
+	<table><tr><td>
+	Filter<br></td></tr>
+	<tr><td>LFO Type:</td><td><select id="fiLfoType"></select><br></td></tr>
+	<tr><td>LFO Rate:</td><td><select id="fiLfoRate"></select><br></td></tr>
+	<tr><td>LFO Depth:</td><td><input type="number" id="fiLfoDepth" min="0" max="100"></input><br></td></tr>
+	<tr><td>Type:</td><td><select id="fiType"></select><br></td></tr>
+	<tr><td>Cutoff Frequency:</td><td><select id="fiCutoff"></select><br></td></tr>
+	<tr><td>Resonance:</td><td><input type="number" id="fiResonance" min="0" max="100"></input><br></td></tr>
+	<tr><td>Position:</td><td><select id="fiPosition"></select><br></td></tr>
+	</table>		
+	</div>
+	<div class="delay" id="shimmer">
+	<hr width="80%">
+	<table><tr><td>
+	Shimmer<br></td></tr>
+	<tr><td>Pitch:</td><td><input type="number" id="shPitch" min="0" max="48"></input><br></td></tr>
+	<tr><td>Fine:</td><td><input type="number" id="shFine" min="0" max="100"></input><br></td></tr>
+	<tr><td>Pitch/Direct Balance:</td><td><input type="number" id="shBalance" min="0" max="100"></input><br></td></tr>
+	<tr><td>Direct Feedback:</td><td><input type="number" id="shFeedback" min="0" max="100"></input><br></td></tr>
+	</table>		
+	</div>
+	<div class="delay" id="sfx">
+	<hr width="80%">
+	<table><tr><td>
+	SFX<br></td></tr>
+	<tr><td>LoFi Bit Depth:</td><td><select id="sfBitDepth"></select><br></td></tr>
+	<tr><td>LoFi Sample Rate:</td><td><select id="sfSampleRate"></select><br></td></tr>
+	<tr><td>LoFi Balance:</td><td><input type="number" id="sfBalance" min="0" max="100"></input><br></td></tr>	
+	<tr><td>Tremolo Wave:</td><td><input type="number" id="sfWave" min="0" max="100"></input><br></td></tr>
+	<tr><td>Tremolo Rate:</td><td><select id="sfRate"></select><br></td></tr>		
+	<tr><td>Tremolo Depth:</td><td><input type="number" id="sfDepth" min="0" max="100"></input><br></td></tr>
+	<tr><td>Tremolo Position:</td><td><select id="sfPosition"></select><br></td></tr>	
+	</table>		
+	</div>
+	<div class="delay" id="pattern">
+	<hr width="80%">
+	<table><tr><td>
+	Pattern<br></td></tr>
+	<tr><td>Type:</td><td><select id="paType"></select><br></td></tr>
+	<tr></tr><tr></tr>
+	<tr><td>1</td><td></td><td>2</td><td></td><td>3</td><td></td><td>4</td></tr>
+	<tr><td>Time:</td><td><select id="paTime1"></select><br></td><td>Time:</td><td><select id="paTime2"></select><br></td>	<td>Time:</td><td><select id="paTime3"></select><br></td><td>Time:</td><td><select id="paTime4"></select><br></td></tr>
+	<tr><td>Level:</td><td><input type="number" id="paLevel1" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel2" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel3" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel4" min="0" max="100"></input><br></td></tr>
+	<tr><td>Pan:</td><td><input type="number" id="paPan1" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan2" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan3" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan4" min="0" max="100"></input><br></td></tr>
+	<tr></tr><tr></tr>
+	<tr><td>5</td><td></td><td>6</td><td></td><td>7</td><td></td><td>8</td></tr>
+	<tr><td>Time:</td><td><select id="paTime5"></select><br></td><td>Time:</td><td><select id="paTime6"></select><br></td>	<td>Time:</td><td><select id="paTime7"></select><br></td><td>Time:</td><td><select id="paTime8"></select><br></td></tr>
+	<tr><td>Level:</td><td><input type="number" id="paLevel5" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel6" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel7" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel8" min="0" max="100"></input><br></td></tr>
+	<tr><td>Pan:</td><td><input type="number" id="paPan5" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan6" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan7" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan8" min="0" max="100"></input><br></td></tr>
+	<tr></tr><tr></tr>
+	<tr><td>9</td><td></td><td>10</td><td></td><td>11</td><td></td><td>12</td></tr>
+	<tr><td>Time:</td><td><select id="paTime9"></select><br></td><td>Time:</td><td><select id="paTime10"></select><br></td>	<td>Time:</td><td><select id="paTime11"></select><br></td><td>Time:</td><td><select id="paTime12"></select><br></td></tr>
+	<tr><td>Level:</td><td><input type="number" id="paLevel9" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel10" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel11" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel12" min="0" max="100"></input><br></td></tr>
+	<tr><td>Pan:</td><td><input type="number" id="paPan9" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan10" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan11" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan12" min="0" max="100"></input><br></td></tr>
+	<tr></tr><tr></tr>
+	<tr><td>13</td><td></td><td>14</td><td></td><td>15</td><td></td><td>16</td></tr>
+	<tr><td>Time:</td><td><select id="paTime13"></select><br></td><td>Time:</td><td><select id="paTime14"></select><br></td>	<td>Time:</td><td><select id="paTime15"></select><br></td><td>Time:</td><td><select id="paTime16"></select><br></td></tr>
+	<tr><td>Level:</td><td><input type="number" id="paLevel13" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel14" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel15" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel16" min="0" max="100"></input><br></td></tr>
+	<tr><td>Pan:</td><td><input type="number" id="paPan13" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan14" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan15" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan16" min="0" max="100"></input><br></td></tr>
+	<tr></tr><tr></tr>
+	<tr><td>Note:</td><td colspan = "2"><select id="paNote" style = "max-width:175px"></select><br></td></tr>
+	</table>		
+	</div>
+	<div class="delay" id="dual">
+	<hr width="80%">
+	<table><tr><td>
+	Dual<br></td></tr>
+	<tr><td>Mode:</td><td><select id="duMode"></select><br></td></tr>
+	<tr><td>Type:</td><td><select id="duType"></select><br></td></tr>
+	<tr><td>D1 Effect Level:</td><td><input type="number" id="duLevel1" min="0" max="100"></input><br></td></tr>	
+	<tr><td>Link Switch:</td><td><select id="duLink"></select><br></td></tr>			
+	<tr><td>D2 Time:</td><td><input type="number" id="duTime2Abs" min="1" max="5000"></input><br></td></tr>
+	<tr><td>D2 Time:</td><td><input type="number" id="duTime2Rel" min="1" max="100"></input><br></td></tr>
+	<tr><td>D2 Feedback:</td><td><input type="number" id="duFeedback2Abs" min="0" max="100"></input><br></td></tr>
+	<tr><td>D2 Feedback:</td><td><input type="number" id="duFeedback2Rel" min="0" max="100"></input><br></td></tr>
+	<tr><td>D2 Effect Level:</td><td><input type="number" id="duEffectLevel" min="0" max="100"></input><br></td></tr>
+	</table>		
+	</div>
+	<div class="delay" id="vintage">
+	<hr width="80%">
+	<table><tr><td>
+	Vintage Delay<br></td></tr>
+	<tr><td>Type:</td><td><select id="viType"></select><br></td></tr>			
+	<tr><td>Filter Switch:</td><td><select id="viFilterSwitch"></select><br></td></tr>			
+	<tr><td>Time x2 Switch:</td><td><select id="viTimeSwitch"></select><br></td></tr>			
+	<tr><td>Delay Phase:</td><td><select id="viDelayPhase"></select><br></td></tr>			
+	<tr><td>Feedback Phase:</td><td><select id="viFeedbackPhase"></select><br></td></tr>			
+	</table>		
+	</div>
+	<div class="delay" id="tape">
+	<hr width="80%">
+	<table><tr><td>
+	Tape<br></td></tr>
+	<tr><td>Type:</td><td><select id="taType"></select><br></td></tr>
+	<tr><td>Head:</td><td><select id="taHead"></select><br></td></tr>							
+	</table>		
+	</div>
+	<div class="delay" id="analog">
+	<hr width="80%">
+	<table><tr><td>
+	Analog<br></td></tr>
+	<tr><td>BBD Stage:</td><td><select id="anBbd"></select><br></td></tr>
+	</table>		
+	</div> 	
+	</div>
+	</div>
+</body>	
+</html>   
+	
