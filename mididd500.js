@@ -13,9 +13,11 @@ var assTarget = 0;
 var specialEffects = [1,2,3,4,5,7,8,9,10,11]; //0 = terra, 1 = slow, 2 = filter, 3 = shimmer, 4 = SFX, 5 = pattern, 6 = Dual, 7 = Vintage, 8 = Tape, 9 = Analog
 var specialEffectId = ["terra","slow","filter","shimmer","sfx","pattern","dual","vintage","tape","analog"];
 var selectedBank = [];
+var presetTimer = 0;
+var paramTimer = 0;
+var arraySelection = [[0,41],[41,89],[89,145],[145,189],[189,233]];
 
 $(document).ready(function() {
-
 	
 	function onMIDISuccess(midiAccess) {
   	console.log( "MIDI ready!" );
@@ -170,70 +172,32 @@ $(document).ready(function() {
 
 	function getParameters() {
 		reqByte = 0x11;
+		paramTimer = 0;
 		getName();
-		getPatchParams();
-
-		var assignsOne = setTimeout(getAssignParamsOne, 750);
-		var assignsTwo = setTimeout(getAssignParamsTwo, 1500);
-		var delayOne = setTimeout(getDelayParamsOne,2250);
-  	var delayTwo = setTimeout(getDelayParamsTwo,3000);
-		var hideWait = setTimeout(hideWaiter,5000);
-	}
-
-	function hideWaiter() {
-		$("#waitDiv").hide();
-	}
-
-	function getPatchParams() {
-		for (var i=0;i<41;i++) {
-			address[2] = parameterList[i][0];
-			address[3] = parameterList[i][1];
-			value = [0,0,0,parameterList[i][2]];
-			calculateChecksum();
-			sendData();
+		var paramFunc = [];
+		for (var i=0;i<6;i++) {
+			paramFunc[i] = setTimeout(function() {
+				getAllParams();
+			},750*(i+1));
 		}
 	}
 
-	function getAssignParamsOne() {
-  	for (var i = 41;i<89;i++) {
- 			address[2] = parameterList[i][0];
-			address[3] = parameterList[i][1];
-			value = [0,0,0,parameterList[i][2]];
-			calculateChecksum();
-			sendData();
+	function getAllParams() {
+		if (paramTimer <5) {
+			for (var i=arraySelection[paramTimer][0];i<arraySelection[paramTimer][1];i++) {
+				address[2] = parameterList[i][0];
+				address[3] = parameterList[i][1];
+				value = [0,0,0,parameterList[i][2]];
+				calculateChecksum();
+				sendData();
+			}
+			paramTimer++;
+		}
+		else if (paramTimer == 5) {
+			$("#waitDiv").hide();
 		}
 	}
-
-	function getAssignParamsTwo() {
-  	for (var i = 89;i<145;i++) {
- 			address[2] = parameterList[i][0];
-			address[3] = parameterList[i][1];
-			value = [0,0,0,parameterList[i][2]];
-			calculateChecksum();
-			sendData();
-		}
-	}
-
-	function getDelayParamsOne() {
-  	for (var i = 145;i<189;i++) {
- 			address[2] = parameterList[i][0];
-			address[3] = parameterList[i][1];
-			value = [0,0,0,parameterList[i][2]];
-			calculateChecksum();
-			sendData();
-		}
-	}
-
-	function getDelayParamsTwo() {
-  	for (var i = 189;i<233;i++) {
- 			address[2] = parameterList[i][0];
-			address[3] = parameterList[i][1];
-			value = [0,0,0,parameterList[i][2]];
-			calculateChecksum();
-			sendData();
-		}
-	}
-
+	
 	function getName() {
 		address[2] = hexToDec("00");
 		for (var i = 0;i<16;i++) {
@@ -400,10 +364,7 @@ $(document).ready(function() {
 			if ($(this).is("select")) {
 				var selected = $("#"+parameterList[i][3]).prop('selectedIndex');
 			}
-			
-			console.log("selected",selected)
-			console.log("offset",parameterList[i][4]);
-		  
+					  
 			selected = parseInt(selected) - parameterList[i][4];
 			//in special cases (like changing things when something is selected); 
 			if (i == 0) {
@@ -445,7 +406,6 @@ $(document).ready(function() {
 		if (file.type == "application/json") {
 			var success = function (content) {
 				data = JSON.parse(content);
-				$("#patchName").val(data.name); 
 				handlePreset(data);
 			}
 			var fileReader = new FileReader();
@@ -456,31 +416,44 @@ $(document).ready(function() {
 		}
 	});
 	
-	function handlePreset(data) {
-		for (var i in data) {
-			if ($("#"+i).is("input")) {
-				$("#"+i).val(data[i]);
-				$("#"+i).trigger("input");
+	function sendPresetData(data) {
+		if (presetTimer < 5) {
+			for (var i=arraySelection[presetTimer][0];i<arraySelection[presetTimer][1];i++) {
+				if ($("#"+i).is("input")) {
+					$("#"+i).val(data[i]);
+					$("#"+i).trigger("change");
+				}
+				else if ($("#"+i).is("select")) {
+					$("#"+i+" option:eq("+data[i]+")").prop("selected",true);
+					$("#"+i).trigger("change");
+				}
 			}
-			else if ($("#"+i).is("select")) {
-				$("#"+i+" option:eq("+data[i]+")").prop("selected",true);
-				$("#"+i).trigger("change");
-			}
+			presetTimer++;
 		}
-		document.getElementById("loadDiv").innerHTML = "";
-		$("#loadDiv").hide();
+		else if (presetTimer == 5) {
+			$("#loadDiv").hide();
+		}
 	}
 	
+	function handlePreset(data) {
+		presetTimer = 0;
+		$("#patchName").val(data.name);
+		$("#patchName").trigger("change");
+		var presetFunc = [];
+		for (var i=0;i<6;i++) {
+			presetFunc[i] = setTimeout(function() {
+				sendPresetData(data);
+			},750*(i+1));
+		}		
+	}//handlePreset;
+	
 	$("#loadDiv").on("click","#warningCancel",function() {
-		document.getElementById("loadDiv").innerHTML = "";
 		$("#loadDiv").hide();
 	})
 	
 	$("#textthing").on("click","#loadPatch",function() {
 		$("#fileInput").trigger("click");
-		var loadElem = "<b><p id='importPatch' class='loadPatch'>load preset</p></b><p class='warning'>WARNING<br>file will overwrite selected bank!</p><p id = 'warningCancel' class='cancelWarning'>cancel</p>";
 		$("#loadDiv").show();
-		document.getElementById("loadDiv").innerHTML += loadElem;
 	})
 	
 	$("#savePatch").click(function() {
@@ -499,11 +472,11 @@ $(document).ready(function() {
 	});
 	
 	function saveJson(preset) {
+		var presetName = $("#patchName").val()
 		var dataStr = "data:text/json;charset-utf-8,"+encodeURIComponent(preset);
-		var dlElem = $("<a id='downloadPreset' href='"+dataStr+"' download='"+$("#patchName").val()+".json'>a</a>");
+		var dlElem = $("<a id='downloadPreset' href='"+dataStr+"' download='"+presetName.trim()+".json'>a</a>");
 		$('#textthing').append(dlElem);
 		$("#downloadPreset").get(0).click();
 		$("#downloadPreset").remove();
 	}
 });
-	
