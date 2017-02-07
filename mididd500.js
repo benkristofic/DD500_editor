@@ -498,7 +498,7 @@ $(document).ready(function() {
 				$(id+" option:eq("+rnd+")").prop("selected",true);
 			}
 		}
-		// $("#processing").show();
+		$("#processing").show();
 		randTimer = 0
 		var randFunc = [];
 		for (var i=0;i<6;i++) {

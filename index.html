@@ -42,7 +42,7 @@
 		<span id="info"><b>More information</b></span> | 
 		<span id="savePatch"><b>Save Patch</b></span> | 
 		<span id="loadPatch"><b>Load Patch</b></span> |
-		<!--<span id="randomPatch"><b>Random</b></span> | -->
+		<span id="randomPatch"><b>Random</b></span> | 
 		<span id="email"><b>&copy;Roald van Dillewijn</b></span>
 		<input id="fileInput" type="file" name="fileInput" style="display: none;" accept="application/json" />
 	</div>
@@ -438,8 +438,8 @@
 	<hr width="80%">
 	<table><tr><td>
 	Shimmer<br></td></tr>
-	<tr><td>Pitch:</td><td><input type="number" id="shPitch" min="0" max="48"></input><br></td></tr>
-	<tr><td>Fine:</td><td><input type="number" id="shFine" min="0" max="100"></input><br></td></tr>
+	<tr><td>Pitch:</td><td><input type="number" id="shPitch" min="-24" max="24"></input><br></td></tr>
+	<tr><td>Fine:</td><td><input type="number" id="shFine" min="-50" max="50"></input><br></td></tr>
 	<tr><td>Pitch/Direct Balance:</td><td><input type="number" id="shBalance" min="0" max="100"></input><br></td></tr>
 	<tr><td>Direct Feedback:</td><td><input type="number" id="shFeedback" min="0" max="100"></input><br></td></tr>
 	</table>		
@@ -466,22 +466,22 @@
 	<tr><td>1</td><td></td><td>2</td><td></td><td>3</td><td></td><td>4</td></tr>
 	<tr><td>Time:</td><td><select id="paTime1"></select><br></td><td>Time:</td><td><select id="paTime2"></select><br></td>	<td>Time:</td><td><select id="paTime3"></select><br></td><td>Time:</td><td><select id="paTime4"></select><br></td></tr>
 	<tr><td>Level:</td><td><input type="number" id="paLevel1" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel2" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel3" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel4" min="0" max="100"></input><br></td></tr>
-	<tr><td>Pan:</td><td><input type="number" id="paPan1" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan2" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan3" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan4" min="0" max="100"></input><br></td></tr>
+	<tr><td>Pan:</td><td><input type="number" id="paPan1" min="-50" max="50"></input><br></td><td>Pan:</td><td><input type="number" id="paPan2" min="-50" max="50"></input><br></td><td>Pan:</td><td><input type="number" id="paPan3" min="-50" max="50"></input><br></td><td>Pan:</td><td><input type="number" id="paPan4" min="-50" max="50"></input><br></td></tr>
 	<tr></tr><tr></tr>
 	<tr><td>5</td><td></td><td>6</td><td></td><td>7</td><td></td><td>8</td></tr>
 	<tr><td>Time:</td><td><select id="paTime5"></select><br></td><td>Time:</td><td><select id="paTime6"></select><br></td>	<td>Time:</td><td><select id="paTime7"></select><br></td><td>Time:</td><td><select id="paTime8"></select><br></td></tr>
 	<tr><td>Level:</td><td><input type="number" id="paLevel5" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel6" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel7" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel8" min="0" max="100"></input><br></td></tr>
-	<tr><td>Pan:</td><td><input type="number" id="paPan5" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan6" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan7" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan8" min="0" max="100"></input><br></td></tr>
+	<tr><td>Pan:</td><td><input type="number" id="paPan5" min="-50" max="50"></input><br></td><td>Pan:</td><td><input type="number" id="paPan6" min="-50" max="50"></input><br></td><td>Pan:</td><td><input type="number" id="paPan7" min="-50" max="50"></input><br></td><td>Pan:</td><td><input type="number" id="paPan8" min="-50" max="50"></input><br></td></tr>
 	<tr></tr><tr></tr>
 	<tr><td>9</td><td></td><td>10</td><td></td><td>11</td><td></td><td>12</td></tr>
 	<tr><td>Time:</td><td><select id="paTime9"></select><br></td><td>Time:</td><td><select id="paTime10"></select><br></td>	<td>Time:</td><td><select id="paTime11"></select><br></td><td>Time:</td><td><select id="paTime12"></select><br></td></tr>
 	<tr><td>Level:</td><td><input type="number" id="paLevel9" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel10" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel11" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel12" min="0" max="100"></input><br></td></tr>
-	<tr><td>Pan:</td><td><input type="number" id="paPan9" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan10" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan11" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan12" min="0" max="100"></input><br></td></tr>
+	<tr><td>Pan:</td><td><input type="number" id="paPan9" min="-50" max="50"></input><br></td><td>Pan:</td><td><input type="number" id="paPan10" min="-50" max="50"></input><br></td><td>Pan:</td><td><input type="number" id="paPan11" min="-50" max="50"></input><br></td><td>Pan:</td><td><input type="number" id="paPan12" min="-50" max="50"></input><br></td></tr>
 	<tr></tr><tr></tr>
 	<tr><td>13</td><td></td><td>14</td><td></td><td>15</td><td></td><td>16</td></tr>
 	<tr><td>Time:</td><td><select id="paTime13"></select><br></td><td>Time:</td><td><select id="paTime14"></select><br></td>	<td>Time:</td><td><select id="paTime15"></select><br></td><td>Time:</td><td><select id="paTime16"></select><br></td></tr>
 	<tr><td>Level:</td><td><input type="number" id="paLevel13" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel14" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel15" min="0" max="100"></input><br></td><td>Level:</td><td><input type="number" id="paLevel16" min="0" max="100"></input><br></td></tr>
-	<tr><td>Pan:</td><td><input type="number" id="paPan13" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan14" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan15" min="0" max="100"></input><br></td><td>Pan:</td><td><input type="number" id="paPan16" min="0" max="100"></input><br></td></tr>
+	<tr><td>Pan:</td><td><input type="number" id="paPan13" min="-50" max="50"></input><br></td><td>Pan:</td><td><input type="number" id="paPan14" min="-50" max="50"></input><br></td><td>Pan:</td><td><input type="number" id="paPan15" min="-50" max="50"></input><br></td><td>Pan:</td><td><input type="number" id="paPan16" min="-50" max="50"></input><br></td></tr>
 	<tr></tr><tr></tr>
 	<tr><td>Note:</td><td colspan = "2"><select id="paNote" style = "max-width:175px"></select><br></td></tr>
 	</table>		
