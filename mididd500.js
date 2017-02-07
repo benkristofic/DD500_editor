@@ -15,6 +15,7 @@ var specialEffectId = ["terra","slow","filter","shimmer","sfx","pattern","dual",
 var selectedBank = [];
 var presetTimer = 0;
 var paramTimer = 0;
+var randTimer = 0;
 var arraySelection = [[0,41],[41,89],[89,145],[145,189],[189,233]];
 
 $(document).ready(function() {
@@ -36,8 +37,8 @@ $(document).ready(function() {
  		for (var output = outputs.next();output && !output.done; output = outputs.next()) {
 			listOutputs(output);
 		}
-		document.getElementById("outputportselector").selectedIndex = 4;
-		pedalId = availableId[4];
+		document.getElementById("outputportselector").selectedIndex = 1;
+		pedalId = availableId[1];
 	
 		var inputs = midi.inputs.values();
 		for (var input = inputs.next();input && !input.done; input = inputs.next()) {
@@ -72,6 +73,7 @@ $(document).ready(function() {
 				patchName = patchName+String.fromCharCode(receivedMessage[2]);
 				if (receivedMessage[1] == 15) {
 					showPatchName();
+					console.log(patchName);
 				}
 			}
 		
@@ -377,7 +379,6 @@ $(document).ready(function() {
 				selected = convertNumber(decToHex(selected*divide),parameterList[i][2]);
 			}
 
-				
 			//send data
 			sendNewValue(i,selected);
 		});
@@ -401,6 +402,7 @@ $(document).ready(function() {
 	});
 	
 	$("#loadDiv").on("click","#importPatch",function() {
+		$("#warningCancel").hide();
 		var file = $('#fileInput').get(0).files[0];
 		var data = {}
 		if (file.type == "application/json") {
@@ -419,26 +421,27 @@ $(document).ready(function() {
 	function sendPresetData(data) {
 		if (presetTimer < 5) {
 			for (var i=arraySelection[presetTimer][0];i<arraySelection[presetTimer][1];i++) {
-				if ($("#"+i).is("input")) {
-					$("#"+i).val(data[i]);
-					$("#"+i).trigger("change");
+				var k = Object.keys(data)[i]
+				if ($("#"+k).is("input")) {
+					$("#"+k).val(data[k]);
 				}
-				else if ($("#"+i).is("select")) {
-					$("#"+i+" option:eq("+data[i]+")").prop("selected",true);
-					$("#"+i).trigger("change");
+				else if ($("#"+k).is("select")) {
+					$("#"+k+" option:eq("+data[k]+")").prop("selected",true);
 				}
+				$("#"+k).trigger("change");
 			}
 			presetTimer++;
 		}
 		else if (presetTimer == 5) {
+			$("#warningCancel").show();
 			$("#loadDiv").hide();
+			$("#patchName").trigger("change");
 		}
 	}
 	
 	function handlePreset(data) {
 		presetTimer = 0;
 		$("#patchName").val(data.name);
-		$("#patchName").trigger("change");
 		var presetFunc = [];
 		for (var i=0;i<6;i++) {
 			presetFunc[i] = setTimeout(function() {
@@ -479,4 +482,50 @@ $(document).ready(function() {
 		$("#downloadPreset").get(0).click();
 		$("#downloadPreset").remove();
 	}
+	
+	$("#textthing").on("click","#randomPatch",function() {
+		for (var i in parameterList) {
+			var id = "#"+parameterList[i][3]
+			if ($(id).is("input")) {
+				var min = parseInt($(id).attr('min'));
+				var max = parseInt($(id).attr('max'));
+				var rnd = Math.floor(Math.random()*(max-min))+min;
+				$(id).val(rnd);
+			}
+			if ($(id).is("select")) {
+				var size = parseInt($(id+' option').size());
+				var rnd = Math.floor(Math.random()*size);
+				$(id+" option:eq("+rnd+")").prop("selected",true);
+			}
+		}
+		// $("#processing").show();
+		randTimer = 0
+		var randFunc = [];
+		for (var i=0;i<6;i++) {
+			randFunc = setTimeout(function() {
+				sendRandomData();
+			},750*(i+1));
+		}
+	})
+	
+	function sendRandomData() {
+		// console.log(randTimer);
+		if (randTimer < 5) {
+			for (var i=arraySelection[randTimer][0];i<arraySelection[randTimer][1];i++) {
+				var id = "#"+parameterList[i][3];
+				console.log(id);
+				$(id).trigger("change");
+			}
+			randTimer++;
+		}
+		else if (randTimer == 5) {
+			// console.log("hallo");
+			$("#processing").hide();
+		}
+	}
+	
+	$("#textthing").on("click","#email",function(){
+		location.href = 'mailto:info@roaldvandillewijn.nl';
+	})
+	
 });

@@ -11,7 +11,7 @@
  <div class="wait" id="waitDiv">
 	<div class="waittext">
 		<p>Loading data from DD-500<br>
-			This will take 5 seconds..</p>
+			This will take 3750 miliseconds..</p>
 	</div>
  </div>
  <div class="info" id="infoDiv">
@@ -27,19 +27,23 @@
 		</div>
 	</div>
 	<div id="loadDiv">
-		<b><p id='importPatch' class='loadPatch'>load preset</p></b>
+		<b><p id='importPatch' class='loadPatch'>import patch</p></b>
 		<p class='warning'>WARNING<br>file will overwrite selected bank!</p>
 		<p id = 'warningCancel' class='cancelWarning'>cancel</p>
 	</div>
-
+	<div id ="processing">
+		<b><p class='warning'>Processing random values</p></b>
+	</div>
  <div class ="main">
 	<div class="top">
  		Midi source:<select id="outputportselector"></select>
 	</div>
 	<div class="topleft" id="textthing">
 		<span id="info"><b>More information</b></span> | 
-		<span id="savePatch"><b>Save</b></span> | 
-		<span id="loadPatch"><b>Select Patch</b></span>
+		<span id="savePatch"><b>Save Patch</b></span> | 
+		<span id="loadPatch"><b>Load Patch</b></span> |
+		<!--<span id="randomPatch"><b>Random</b></span> | -->
+		<span id="email"><b>&copy;Roald van Dillewijn</b></span>
 		<input id="fileInput" type="file" name="fileInput" style="display: none;" accept="application/json" />
 	</div>
  
