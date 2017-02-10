@@ -422,6 +422,7 @@ $(document).ready(function() {
 		if (presetTimer < 5) {
 			for (var i=arraySelection[presetTimer][0];i<arraySelection[presetTimer][1];i++) {
 				var k = Object.keys(data)[i]
+				console.log(k,"-",i);
 				if ($("#"+k).is("input")) {
 					$("#"+k).val(data[k]);
 				}
