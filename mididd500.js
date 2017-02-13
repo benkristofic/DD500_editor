@@ -404,25 +404,22 @@ $(document).ready(function() {
 	$("#loadDiv").on("click","#importPatch",function() {
 		$("#warningCancel").hide();
 		var file = $('#fileInput').get(0).files[0];
-		var data = {}
-		if (file.type == "application/json") {
-			var success = function (content) {
-				data = JSON.parse(content);
-				handlePreset(data);
-			}
-			var fileReader = new FileReader();
-			fileReader.onload = function (e) { 
-				success(e.target.result) 
-			};
-			var result = fileReader.readAsText(file);
+		var data = {}		
+		var success = function (content) {
+			data = JSON.parse(content);
+			handlePreset(data);
 		}
+		var fileReader = new FileReader();
+		fileReader.onload = function (e) { 
+			success(e.target.result) 
+		};
+		var result = fileReader.readAsText(file);
 	});
 	
 	function sendPresetData(data) {
 		if (presetTimer < 5) {
 			for (var i=arraySelection[presetTimer][0];i<arraySelection[presetTimer][1];i++) {
 				var k = Object.keys(data)[i]
-				console.log(k,"-",i);
 				if ($("#"+k).is("input")) {
 					$("#"+k).val(data[k]);
 				}
